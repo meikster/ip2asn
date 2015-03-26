@@ -1,0 +1,56 @@
+ip2asn
+
+gives the AS number associated with an IP address.
+
+Works with ipv4 and ipv6
+
+== Apologies ==
+This code is *very* crappy. Initially there were 2 distincts programs for
+ipv4 and ipv6, but I wanted to merge them into a single program. It required
+a bit of re-factoring, but I am too lazy to do it right now.
+
+You will find a lot of redundant code. Parsing isn't very efficient too.
+Actually this code was never meant to be scalable, nor published.
+
+I started this as a personal project a few years ago...
+
+== Requirements ==
+- libgmp (ipv6 to integer stuff)
+- libbsd (fgetln function)
+
+Requirements should be met under Ubuntu-like distros like this:
+# apt-get install libbsd libbsd-dev libgmp10 libgmp10-dev
+(or something like that).
+
+== Compilation ==
+just type "make"
+$ make
+gcc -Wall -Werror -W -ansi -pedantic   -c -o ip2asn.o ip2asn.c
+gcc -o ip2asn ip2asn.o -lbsd -lgmp
+(perfect compile on Ubuntu 14.04.2 LTS)
+
+== Initialization ==
+Since this code is using Maxmind databases (yeah, maybe I could have used
+their API or a higher level programming language), and I can't distribute
+their DB or so, I just provide a sample script which retrieves one of the
+databases (ipv4) and unzips it.
+
+== Basic usage ==
+$ ./ip2asn 8.8.8.8
+[+] 8.8.8.8 belongs to "AS15169 Google Inc."
+
+$ ./ip2asn 2a00:1450:400b:c02::65
+[+] 2a00:1450:400b:c02::65 belongs to "AS15169 Google Inc."
+
+
+== Limitations / bugs ==
+A lot.
+
+Since this code is a patchwork of two differents programs I made, a lot of
+dirty things are hidden. Someday I will fix these things.
+
+== TODO ==
+
+- batch processing
+- in memory storage of data structures (for batch processing it will be faster...)
+- ...
